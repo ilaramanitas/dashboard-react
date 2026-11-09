@@ -1,0 +1,111 @@
+import logo from "../assets/img/logo.png";
+import { Routes, Route, Link } from "react-router-dom";
+
+import Contenido from "./Contenido";
+import Preventa from "./Preventa";
+import Aspirantes from "./Aspirantes";
+import Profesiones from "./Profesiones";
+
+import { useProfesiones } from "../hooks/useProfesiones";
+
+function Menu() {
+  const { profesiones, loading, error } = useProfesiones();
+
+  if (loading) {
+    return <p>Cargando profesiones...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
+  return (
+    <>
+      <header className="menu-wrap">
+        <figure className="user">
+          <div className="user-avatar">
+            <Link to="/">
+              <img className="w-100" src={logo} alt="Cedavilu Web Academy" />
+            </Link>
+          </div>
+
+          <figcaption>Cedavilu Web Academy</figcaption>
+        </figure>
+
+        <nav>
+          <section className="menu">
+            <h3>Opciones</h3>
+
+            <ul>
+              <li>
+                <Link to="/empresa">
+                  <i
+                    className="bi bi-building"
+                    style={{
+                      fontSize: "1.2rem",
+                      color: "cornflowerblue",
+                    }}
+                  ></i>
+                  - Empresas
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/aspirantes">
+                  <i
+                    className="bi bi-person"
+                    style={{
+                      fontSize: "1.2rem",
+                      color: "cornflowerblue",
+                    }}
+                  ></i>
+                  - Aspirantes
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/profesiones">
+                  <i className="bi bi-list-check"></i>- Profesiones
+                </Link>
+              </li>
+
+              <li>
+                <Link to="#">
+                  <i
+                    className="bi bi-person-vcard"
+                    style={{
+                      fontSize: "1.2rem",
+                      color: "cornflowerblue",
+                    }}
+                  ></i>
+                  - Postúlate aquí
+                </Link>
+              </li>
+
+              <li>
+                <Link to="#">
+                  <i className="bi bi-chat-left-text"></i>- Contacto
+                </Link>
+              </li>
+            </ul>
+          </section>
+        </nav>
+      </header>
+
+      <Routes>
+        <Route path="/" element={<Contenido />} />
+
+        <Route path="/empresa" element={<Preventa />} />
+
+        <Route path="/aspirantes" element={<Aspirantes />} />
+
+        <Route
+          path="/profesiones"
+          element={<Profesiones listado={profesiones} />}
+        />
+      </Routes>
+    </>
+  );
+}
+
+export default Menu;
